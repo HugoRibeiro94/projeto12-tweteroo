@@ -57,16 +57,15 @@ app.get('/tweets', (req, res) => {
         
         let avatar = usuarios.find((item) => item.username === tweet.username );
 
-        array.push({ username: tweet.username, avatar: avatar.avatar, tweet: tweet.tweet})
+        array.unshift({ username: tweet.username, avatar: avatar.avatar, tweet: tweet.tweet})
 
     })
     
     if (array.length > 10){
-        
-        for(let contador = 1; array.lenght > 10; contador++){
-            
-            res.send(array.slice(contador));
-        }
+        const osDeztweets = array.slice(0,10)
+        console.log(osDeztweets);
+        console.log(array);
+        res.send(osDeztweets);
 
     }else{
         res.send(array);    
