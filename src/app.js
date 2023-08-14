@@ -18,15 +18,16 @@ app.post('/sign-up', (request, response) => {
 	    avatar: avatar
     }
 
-    if( !username ){
+    if( !username || !avatar ){
 
-        response.status(422).send("UNAUTHORIZED");
+        response.status(401).send("UNAUTHORIZED");
 
     }
 
+    console.log(usuarios);
     usuarios.push(login);
 
-     response.status(200).send("OK");
+    response.status(200).send("OK");
 })
 
 app.post('/tweets', (request, response) => {
@@ -40,7 +41,7 @@ app.post('/tweets', (request, response) => {
 
     if( !username ){
 
-        response.status(422).send("UNAUTHORIZED");
+        response.status(401).send("UNAUTHORIZED");
 
     }
 
