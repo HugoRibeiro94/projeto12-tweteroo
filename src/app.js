@@ -38,10 +38,14 @@ app.post('/tweets', (request, response) => {
 	    tweet: tweet
     }
 
+    if( !username ){
+
+        response.status(422).send("UNAUTHORIZED");
+
+    }
+
     tweets.push(novoTweet);
     response.send(novoTweet);
-    
-    
 
 })
 
@@ -63,7 +67,7 @@ app.get('/tweets', (req, res) => {
             
             res.send(array.slice(contador));
         }
-        
+
     }else{
         res.send(array);    
     }
