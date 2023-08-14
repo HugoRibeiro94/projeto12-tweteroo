@@ -18,10 +18,15 @@ app.post('/sign-up', (request, response) => {
 	    avatar: avatar
     }
 
+    if( !username ){
+
+        response.status(422).send("UNAUTHORIZED");
+
+    }
+
     usuarios.push(login);
 
-    response.send("OK");
-    
+     response.status(200).send("OK");
 })
 
 app.post('/tweets', (request, response) => {
@@ -33,15 +38,9 @@ app.post('/tweets', (request, response) => {
 	    tweet: tweet
     }
 
-    if( !username ){
-
-        response.send("UNAUTHORIZED");
-
-    }else{
-
-        tweets.push(novoTweet);
-        response.send("OK");
-    }
+    tweets.push(novoTweet);
+    response.send(novoTweet);
+    
     
 
 })
@@ -51,18 +50,24 @@ app.get('/tweets', (req, res) => {
     const array = [];
 
     tweets.map( tweet => {
-        console.log(usuarios);
-        let avatar = usuarios.find((item) => item.username === tweet.username );
-        console.log(avatar);
         
-        if (array < 10)
+        let avatar = usuarios.find((item) => item.username === tweet.username );
 
-            array.push({ username: tweet.username, avatar: avatar.avatar, tweet: tweet.tweet})
+        array.push({ username: tweet.username, avatar: avatar.avatar, tweet: tweet.tweet})
 
-    console.log(array);
     })
-
-    res.send(array);
+    
+    if (array.length > 10){
+        
+        for(let contador = 1; array.lenght > 10; contador++){
+            
+            res.send(array.slice(contador));
+        }
+        
+    }else{
+        res.send(array);    
+    }
+    
 });
 
 app.get("/", (req, res) => {
